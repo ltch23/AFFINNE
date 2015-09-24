@@ -8,15 +8,8 @@ Transmitter::Transmitter(int key , std::string alphabet)
 
 unsigned int Transmitter::help( unsigned int idx )
 {
+	/* actua como modulo*/
 	return idx-(idx/alphabet.size())*alphabet.size();
-};
-
-void Transmitter::adjust_string( std::string & str , int n )
-{
-	unsigned int aux= (str.size()/n) * n;
-	
-	if(  aux < str.size() )
-		str.append( n - str.size() + aux ,'x');
 };
 
 void Transmitter::adjust_indexes( unsigned int x , unsigned int* n )
@@ -25,12 +18,11 @@ void Transmitter::adjust_indexes( unsigned int x , unsigned int* n )
 		n[i]++;
 };
 
-bool Transmitter::isPair( int n )
+bool Transmitter::isEven( int n )
 {
-	if( n-(n/2)*2 == 0 )
-		return true;
-	else
+	if( n&1 == 1 )
 		return false;
+	return true;
 };
 
 

@@ -12,9 +12,8 @@ private:
 	std::string alphabet;
 
 	unsigned int help( unsigned int );
-	void adjust_string( std::string & , int );
 	void adjust_indexes( unsigned int , unsigned int* );
-	bool isPair( int );
+	bool isEven( int );
 
 public:
 	/*	Crypto Algorithms	*/
