@@ -1,17 +1,17 @@
-#ifndef TRANSMITTER_H
-#define TRANSMITTER_H
+#ifndef EMISOR_H
+#define EMISOR_H
 
 #include <string>
 #include <fstream>			//std::ofstream std::ifstream
 #include <algorithm>		//std::remove
 #include <iostream>			
 
-class Transmitter
+class Emisor
 {
 private:
 
-	int key;
-	std::string alphabet;
+	int clave;
+	std::string alfabeto;
 
 	unsigned int help( unsigned int );
 	void adjust_string( std::string & , int );
@@ -28,7 +28,7 @@ public:
 	void afinne_cipher( std::string & );
 
 
-	Transmitter( int , std::string );
+	Emisor( int , std::string );
 
 	/* Mode of use */
 
@@ -36,4 +36,4 @@ public:
 
 };
 
-#endif // TRANSMITTER_H
+#endif // EMISOR_H
