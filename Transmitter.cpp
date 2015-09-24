@@ -47,27 +47,27 @@ void Transmitter::rcesar_cipher( std::string & str )
 
 void Transmitter::rail_cipher( std::string & str )
 {
-	unsigned int * n = new unsigned int[key];
+	u_int * n = new u_int[key];
 	const int seg = key-1;
 
 	bool upFlag = false;
 
 	u_int currentPos = 0;
 
-	for( int i=0 ; i<str.size()/seg ; i++ )
+	for( int i=0 ; i<=str.size()/seg && currentPos<str.size() ; i++ )
 	{	
 		for( int j=0 ; j<seg && currentPos<str.size() ; j++ )
 		{
 			//const int idx = i*seg + j;
-			char tmp = str[idx];
+			char tmp = str[currentPos];
 
-			str.erase(str.begin() + idx);
-			str.insert(str.begin() + n[ upFlag ? seg - idx%seg : idx%seg ], tmp );
+			str.erase(str.begin() + currentPos);
+			str.insert(str.begin() + n[ upFlag ? seg - currentPos%seg : currentPos%seg ], tmp );
 
-			adjust_indexes( upFlag ? seg - idx%seg: idx%seg , n );
+			adjust_indexes( upFlag ? seg - currentPos%seg: currentPos%seg , n );
+			//std::cout << currentPos << std::endl;
 			currentPos++;
 
-			std::cout << currentPos << std::endl;
 		}
 
 		upFlag = not upFlag;
@@ -80,7 +80,7 @@ void Transmitter::rail_cipher( std::string & str )
 
 void Transmitter::route_cipher( std::string & str )
 {
-	adjust_string( str , key );
+	//adjust_string( str , key );
 
 	std::string res;
 
@@ -136,9 +136,10 @@ void Transmitter::route_cipher( std::string & str )
 	
 };
 
-void Transmitter::afinne_cipher( std::string & str)
+void Transmitter::affinne_cipher( std::string & str)
 {
-	long long A = Euclides::BinaryMCD(key,alphabet.size());
+	//long long A = Euclides::BinaryMCD(key,alphabet.size());
+	long long A = 1;
 	for(int i=0 ; i<str.size() ; i++)
 		str[i] = alphabet[ help(alphabet.find(str[i])*A + key )];
 }
