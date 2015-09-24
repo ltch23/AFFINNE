@@ -76,8 +76,6 @@ void Transmitter::rail_cipher( std::string & str )
 	delete n;
 };
 
-
-
 void Transmitter::route_cipher( std::string & str )
 {
 	//adjust_string( str , key );

@@ -1,4 +1,4 @@
-//#include "Receiver.h"
+#include "Receiver.h"
 #include "Transmitter.h"
 //#include "Euclides.h"
 #include <iostream>
@@ -10,7 +10,7 @@ int main()
 	int key = 5;
 	std::string alphabet("abcdefghijklmnopqrstuvwxyz .;_");
 
-	//Receiver bob( key , alphabet );
+	Receiver bob( key , alphabet );
 	Transmitter alice( key , alphabet );
 
 	std::string message ="clave5luistontong";
@@ -19,9 +19,9 @@ int main()
 
 	std::cout << message << std::endl;
 
-	//bob.rail_decipher(message);
+	bob.rail_decipher(message);
 
-	//std::cout << message << std::endl;
+	std::cout << message << std::endl;
 /*
 	alice.route_cipher(message);
 	std::cout << message << std::endl;
