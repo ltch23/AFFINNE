@@ -2,8 +2,6 @@
 #define TRANSMITTER_H
 
 #include <string>
-#include <fstream>			//std::ofstream std::ifstream
-#include <algorithm>		//std::remove
 #include <iostream>			
 
 class Transmitter
@@ -25,7 +23,7 @@ public:
 	void rcesar_cipher( std::string & );
 	void rail_cipher( std::string & );
 	void route_cipher( std::string & );
-	void afinne_cipher( std::string & );
+	void affinne_cipher( std::string & );
 
 
 	Transmitter( int , std::string );
