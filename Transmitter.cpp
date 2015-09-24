@@ -60,8 +60,8 @@ void Transmitter::rail_cipher( std::string & str )
 		for( int j=0 ; j < seg ; j++ )
 		{
 			const int idx = i*seg + j;
+			char tmp = str[idx];
 
-s
 			str.erase(str.begin() + idx);
 			str.insert(str.begin() + n[ upFlag ? seg - idx%seg : idx%seg ], tmp );
 
@@ -85,11 +85,11 @@ void Transmitter::route_cipher( std::string & str )
 
 	int currentPos = str.size()-1;
 
-	for( int i=0 ; i<( isPair(key) ? key/2 : (key-1)/2 ) ; i++ ) 	// # de capas
+	for( int i=0 ; i<( isEven(key) ? key/2 : (key-1)/2 ) ; i++ ) 	// # de capas
 	{
 		for( int j=0 ; j<4 ; j++ )									// # de flechas , siempre es 4
 		{
-			if( isPair(j) )
+			if( isEven(j) )
 			{
 				int idx;
 
@@ -126,7 +126,7 @@ void Transmitter::route_cipher( std::string & str )
 		x[1]-=2;
 	}
 
-	if( isPair(key) )
+	if( isEven(key) )
 		str = res;
 	else
 		str = res + str[currentPos];
