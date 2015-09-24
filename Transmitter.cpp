@@ -47,26 +47,29 @@ void Transmitter::rcesar_cipher( std::string & str )
 
 void Transmitter::rail_cipher( std::string & str )
 {
-
-	adjust_string( str , key -1 );
-
 	unsigned int * n = new unsigned int[key];
 	const int seg = key-1;
 
 	bool upFlag = false;
 
+	u_int currentPos = 0;
+
 	for( int i=0 ; i<str.size()/seg ; i++ )
 	{	
-		for( int j=0 ; j < seg ; j++ )
+		for( int j=0 ; j<seg && currentPos<str.size() ; j++ )
 		{
-			const int idx = i*seg + j;
+			//const int idx = i*seg + j;
 			char tmp = str[idx];
 
 			str.erase(str.begin() + idx);
 			str.insert(str.begin() + n[ upFlag ? seg - idx%seg : idx%seg ], tmp );
 
 			adjust_indexes( upFlag ? seg - idx%seg: idx%seg , n );
+			currentPos++;
+
+			std::cout << currentPos << std::endl;
 		}
+
 		upFlag = not upFlag;
 	}
 
