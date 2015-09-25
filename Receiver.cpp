@@ -60,7 +60,7 @@ void Receiver::rail_decipher( std::string & str )
 	limiters[key-1] = str.size() - seg/2;
 
 	for(int i=2 ; i<key-1 ; i++)
-		limiters[i] =limiters[i-1]+(limiters[key-1]-limiters[1])/(key-2);
+		limiters[i] = limiters[i-1]+(limiters[key-1]-limiters[1])/(key-2);
 	
 	bool toRight = true;
 
