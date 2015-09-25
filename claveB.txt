@@ -1,0 +1,28 @@
+//para recorrer la valla
+
+u_int cont = 0;
+u_int size = str.size();
+
+for( int i=key-1 ; i<str.size() ; i=i+2*key-2 )
+{
+	//aqui le encontramos el inverso a str[i] ... si no tiene pasamos ---
+}
+
+for( int i=key-1 ; i<str.size() ; i=i+2*key-2 )
+{
+	for(int j=1 ; j<key ; j++)
+	{
+		//aqui le encontramos el inverso a str[i-j] ... si no tiene pasamos ---
+		cont++;
+	}
+
+	for(int j=1 ; j<key ; j++)
+	{
+		//aqui le encontramos el inverso a str[i+j] ... si no tiene pasamos ---
+		cont++;
+	}
+}
+
+if(cont < str.size())
+	for(int i=str.size() ; i<str.size()-cont ; --i )
+		//aqui le encontramos el inverso a str[i] ... si no tiene nunca pedimos otra clave---
