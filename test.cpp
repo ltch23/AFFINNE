@@ -11,9 +11,9 @@ bool isEven(int n)
 
 int main()
 {
-	std::string strVallas("ABCDEFGHIJKLMN");
+	std::string strVallas("ABCDEFG");
 	std::string str;
-	u_int key = 5;
+	u_int key = 6;
 
 	u_int size = strVallas.size();
 	u_int contVallas = 0;
@@ -21,6 +21,24 @@ int main()
 	for(int i=0 ; i<key ; i++)
 		for(int j=0 ; j<size ; j++)
 			str += strVallas[(((i*size+j )*key) + i)%size];
+
+
+
+	std::cout << std::endl;
+	for(int i=0 ; i<key ; i++)
+	{
+		std::cout << "	";	
+		for(int j=0 ; j<size ; j++)
+		{
+			std::cout << str[i*size+j] << " ";
+			if(i*size+j == i*size + key-1 || i*size+j == i*size + (key-1) + 2*key-2 )
+				std::cout << "| ";
+		}
+		std::cout << std::endl;
+	}
+
+	std::cout << std::endl;
+
 
 	for( int i=key-1 ; i<size ; i=i+2*key-2 )
 	{
@@ -107,18 +125,21 @@ int main()
 		}
 		//std::cout << currentPos << std::endl;
 
-		for(int j=0 ; i==key-1 ? j<1 : j<key-1 ; j++)
-			std::cout << str[currentPos--];
+		if( ! isEven(key))
+		{
+			for(int j=0 ; i==key-1 ? j<1 : j<key-1 ; j++)
+				std::cout << str[currentPos--];
+			std::cout << std::endl;
+		}
 
-		std::cout << std::endl;
 
 		std::cout << "=======================================" << std::endl;
 
 	}
 
 	////////////////////////////////////////////////////////////////////////////
-/*
-	std::cout << last << std::endl;
+
+	//std::cout << last << std::endl;
 
 	if(last != size-1)
 	{
@@ -129,7 +150,7 @@ int main()
 		char tmp;
 		int vueltas = 0;
 
-		for(int it = 0 ; vueltas <(size-last-1)/2 ; it=it+2)
+		for(int it = 0 ; vueltas < key/2 ; it=it+2)
 		{
 			for(int j=0 ; j<4 ; j++)
 			{
@@ -148,7 +169,7 @@ int main()
 					{
 						//std::cout << currentPos << std::endl;
 						std::cout << str[currentPos] ;
-						currentPos = sum ? (( k==size-1-last -1-1 ) ? currentPos+size : currentPos+1 ) : currentPos-1;
+						currentPos = sum ? (( k==size-1-last -1-1-it ) ? currentPos+size : currentPos+1 ) : currentPos-1;
 					}
 				}
 				sum = (j==0 || j==1) ? false : true;  
@@ -156,11 +177,20 @@ int main()
 			}
 			vueltas++;
 		}
-			std::cout << "=======================================" << std::endl;
+
+
+
+		if( ! isEven(key))
+		{
+			for(int j=0 ;  j<size-last -key ; j++)
+				std::cout << str[currentPos--];
+			std::cout << std::endl;
+		}
+		std::cout << "=======================================" << std::endl;
 	}
 
 	
-*/
+
 
 	//std::cout << strMatriz << std::endl;
 	return 0;
