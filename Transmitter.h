@@ -11,7 +11,7 @@ private:
 	int key;
 	std::string alphabet;
 
-	u_int help( u_int );
+	u_int mod( u_int );
 	void adjust_indexes( u_int , u_int* );
 	bool isEven( int );
 

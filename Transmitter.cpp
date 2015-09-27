@@ -6,10 +6,10 @@ Transmitter::Transmitter(int key , std::string alphabet)
 	this -> alphabet = alphabet;
 };
 
-u_int Transmitter::help( u_int idx )
+u_int Transmitter::mod( u_int idx )
 {
 	/* actua como modulo*/
-	return idx-(idx/alphabet.size())*alphabet.size();
+	return idx - ( idx / alphabet.size() ) * alphabet.size() ;
 };
 
 void Transmitter::adjust_indexes( u_int x , u_int* n )
@@ -29,7 +29,7 @@ bool Transmitter::isEven( int n )
 void Transmitter::cesar_cipher ( std::string & str )
 {
 	for( int i=0 ; i < str.size() ; i++ )
-		str[i] = alphabet[ help( alphabet.find( str[i] ) + key  ) ];
+		str[i] = alphabet[ mod( alphabet.find( str[i] ) + key  ) ];
 };
 
 void Transmitter::reverse_cipher( std::string & str )
@@ -139,7 +139,7 @@ void Transmitter::affinne_cipher( std::string & str)
 	//long long A = Euclides::BinaryMCD(key,alphabet.size());
 	long long A = 1;
 	for(int i=0 ; i<str.size() ; i++)
-		str[i] = alphabet[ help(alphabet.find(str[i])*A + key )];
+		str[i] = alphabet[ mod(alphabet.find(str[i])*A + key )];
 }
 
 Transmitter::~Transmitter(){};
