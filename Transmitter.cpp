@@ -6,13 +6,13 @@ Transmitter::Transmitter(int key , std::string alphabet)
 	this -> alphabet = alphabet;
 };
 
-unsigned int Transmitter::help( unsigned int idx )
+u_int Transmitter::help( u_int idx )
 {
 	/* actua como modulo*/
 	return idx-(idx/alphabet.size())*alphabet.size();
 };
 
-void Transmitter::adjust_indexes( unsigned int x , unsigned int* n )
+void Transmitter::adjust_indexes( u_int x , u_int* n )
 {
 	for(int i=x ; i<key ; i++)
 		n[i]++;
