@@ -1,28 +1,36 @@
 //para recorrer la valla
 
-u_int cont = 0;
-u_int size = str.size();
-
-for( int i=key-1 ; i<str.size() ; i=i+2*key-2 )
+int GeneracionClaveB(std::string strVallas , u_int key)
 {
-	//aqui le encontramos el inverso a str[i] ... si no tiene pasamos ---
-}
+	u_int contVallas = 0;
+	const u_int size = strVallas.size();
 
-for( int i=key-1 ; i<str.size() ; i=i+2*key-2 )
-{
-	for(int j=1 ; j<key ; j++)
+	// genererar matriz para rutas
+	std::string strMatriz;
+
+	for(int i=0 ; i<key ; i++)
+		for(int j=0 ; j<size ; j++)
+			strMatriz += strVallas[(((i*size+j )*key) + i)%size];
+
+	for( int i=key-1 ; i<size ; i=i+2*key-2 )
+		std::cout << strVallas[i] << "  con  " << strMatriz[size*(key-1)+i] << std::endl;
+
+	for( int i=key-1 ; i<size ; i=i+2*key-2 )
 	{
-		//aqui le encontramos el inverso a str[i-j] ... si no tiene pasamos ---
-		cont++;
+		for(int j=1 ; j<key ; j++)
+		{
+			std::cout << strVallas[i-j] << "  con  " << strMatriz[size*(key-1)-j+i] << std::endl;
+			contVallas++;
+		}
+
+		for(int j=1 ; j<key ; j++)
+		{
+			std::cout << strVallas[i-j] << "  con  " << strMatriz[size*(key-1)-j-i] << std::endl;
+			contVallas++;
+		}
 	}
 
-	for(int j=1 ; j<key ; j++)
-	{
-		//aqui le encontramos el inverso a str[i+j] ... si no tiene pasamos ---
-		cont++;
-	}
+	if(contVallas < size)
+		for(int i=size ; i<size-contVallas ; --i )
+			std::cout << str[i] << std::endl;
 }
-
-if(cont < str.size())
-	for(int i=str.size() ; i<str.size()-cont ; --i )
-		//aqui le encontramos el inverso a str[i] ... si no tiene nunca pedimos otra clave---

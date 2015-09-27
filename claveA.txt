@@ -1,0 +1,17 @@
+u_int last = 0;
+for( int i=key-1 ; i<size ; i+=2*key-2 )
+{
+	last = i ;
+	bool sum = true;
+	char tmp = '';
+	for(int j=0 ; j<4 ; j++)
+	{
+		for( int k=i ; k < (isEven(j)? key : 2*key-2 ) ; isEven(j) ? (sum ? k+=size : k-=size ) : (sum ? k++ : k-- ) )
+		{
+			char aux = tmp;
+			tmp = str[k];
+			str[k] = aux;
+		}
+		sum = (j!=0 || j!=3) ? false : true;
+	}
+}
