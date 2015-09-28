@@ -1,15 +1,10 @@
 #include "Transmitter.h"
+#include "Useful.h"
 
 Transmitter::Transmitter(int key , std::string alphabet)
 {
 	this -> key = key;
 	this -> alphabet = alphabet;
-};
-
-u_int Transmitter::mod( u_int idx )
-{
-	/* actua como modulo*/
-	return idx - ( idx / alphabet.size() ) * alphabet.size() ;
 };
 
 void Transmitter::adjust_indexes( u_int x , u_int* n )
@@ -18,18 +13,181 @@ void Transmitter::adjust_indexes( u_int x , u_int* n )
 		n[i]++;
 };
 
-bool Transmitter::isEven( int n )
+void Transmitter::keyGeneration( std::string & str , u_int A , u_int B )
 {
-	if( n&1 == 1 )
-		return false;
-	return true;
-};
+	std::string str1;
+	u_int size = str.size();
+	u_int cont = 0;
 
+
+	/*Generando la matriz que usaremos para rutas*/
+	for(int i=0 ; i<key ; i++)
+		for(int j=0 ; j<size ; j++)
+			str1 += str[(((i*size+j )*key) + i)%size];
+
+
+
+/*	GENERACION CLAVE A 	*/
+	/*Empezamos con la ultima fila*/
+	for( int i=key-1 ; i<size ; i=i+2*key-2 )
+	{
+		int( alphabet.find(str[i]) + alphabet.find( str1[size*(key-1)+i] ) ); // esto lo mandaremos al que halla inverso
+		cont++;
+	}
+
+	/*Recorreremos tomando como pivote los picos de la ultima fila*/
+	for( int i=key-1 ; i<size ; i=i+2*key-2 )
+	{
+		/*IZQUIERDA : 	
+		En el primer caso iremos 'key' veces, despues solo 'key-1' dado que 
+		cuando recorrimos hacia la izquierda ya tocamos el pico de la
+		fila */
+		for(int j=1 ; i==key-1 ? (j<key && i-j<size):(j<key-1 && i-j<size-1) ; j++)
+		{
+			int( alphabet.find( str[i-j] ) + alphabet.find( str1[size*(key-1-j)+i-j] ) );
+			cont++;
+		}
+		/*DERECHA:
+		Siempre recorremos 'key' veces*/
+		for(int j=1 ; j<key && i+j<size; j++)
+		{
+			int( alphabet.find( str[i+j] ) + alphabet.find( str1[size*(key-1-j)+i+j] ) );
+			cont++;
+		}
+	}
+
+	/*si no hemos recorrido toda la palabra*/
+	if(cont<size)
+	{
+		u_int aux = size-cont;
+		for(int i=size-1 ; i>=cont ; i--)
+		{
+			int( alphate.find( str[i] ) + alphabet.find( str1[aux*size+i] ) );
+			aux--;
+		}
+	}
+
+/*	GENERACION CLAVE B 	*/
+	u_int last = 0;
+	for( int i=key-1 ; i<size ; i+=2*key-2 )
+	{
+		last = i ;
+		u_int currentPos = i;
+		bool sum = true;
+		char tmp;
+		int laps = 0;
+
+		for(int it = 0 ; laps < key/2 ; it=it+2)
+		{
+			for(int j=0 ; j<4 ; j++)
+			{
+				if( Useful::isEven(j) )
+					for( int k=0 ; k<key-1-it ; k++ )
+					{
+						std::swap(tmp,str1[currentPos]);
+						currentPos = sum ? currentPos + size : currentPos - size ; 
+					}
+
+				else
+					for( int k=0 ; (i == key-1) ? (k<key-1-it) : (k<2*key-2-it -1) ; k++ )
+					{
+						std::swap(tmp,str1[currentPos]);
+
+						if(i == key-1)
+							currentPos = sum ? (k==key-1-it -1 ? currentPos+size :currentPos+1) : currentPos-1 ;
+						else
+							currentPos = sum ? (( k==2*key-2-it-1 -1 ) ? currentPos+size : currentPos+1 ) : currentPos-1;
+					}
+				sum = (j==0 || j==1) ? false : true;  
+			}
+			laps++;
+		}
+
+		if( ! Useful::isEven(key))
+			for(int j=0 ; i==key-1 ? j<1 : j<key-1 ; j++)
+			{
+				std::swap(tmp,str1[currentPos]);
+				currentPos--;
+			}
+
+		str1[i] = tmp;
+
+		for(int j=0 ; j<key ; j++)
+			B += alphabet.find( str1[i+j*(size-1)] )
+	}
+
+
+
+	std::cout << std::endl;
+	for(int i=0 ; i<key ; i++)
+	{
+		std::cout << "	";	
+		for(int j=0 ; j<size ; j++)
+		{
+			std::cout << str1[i*size+j] << " ";
+			if(i*size+j == i*size + key-1 || i*size+j == i*size + (key-1) + 2*key-2 )
+				std::cout << "| ";
+		}
+		std::cout << std::endl;
+	}
+
+	////////////////////////////////////////////////////////////////////////////
+
+	//std::cout << last << std::endl;
+
+	if(last != size-1)
+	{
+		//std::cout << "Soy diferente" << std::endl;
+		int i = size-1 ;
+		u_int currentPos = i;
+		bool sum = true;
+		char tmp;
+		int laps = 0;
+
+		for(int it = 0 ; laps < key/2 ; it=it+2)
+		{
+			for(int j=0 ; j<4 ; j++)
+			{
+				if( Useful::isEven(j) )
+				{
+					for( int k=0 ; k<key-1-it ; k++ )
+					{
+						//std::cout << currentPos << std::endl;
+						std::cout << str1[currentPos] ;
+						currentPos = sum ? currentPos + size : currentPos - size ; 
+					}
+				}
+				else
+				{
+					for( int k=0 ; k<size-1-last-1-it ; k++ )
+					{
+						//std::cout << currentPos << std::endl;
+						std::cout << str1[currentPos] ;
+						currentPos = sum ? (( k==size-1-last -1-1-it ) ? currentPos+size : currentPos+1 ) : currentPos-1;
+					}
+				}
+				sum = (j==0 || j==1) ? false : true;  
+				std::cout << "" << std::endl;
+			}
+			laps++;
+		}
+
+
+
+		if( ! Useful::isEven(key))
+		{
+			for(int j=0 ;  j<size-last -key ; j++)
+				std::cout << str1[currentPos--];
+			std::cout << std::endl;
+		}
+		std::cout << "=======================================" << std::endl;
+	}
+};
 
 void Transmitter::cesar_cipher ( std::string & str )
 {
 	for( int i=0 ; i < str.size() ; i++ )
-		str[i] = alphabet[ mod( alphabet.find( str[i] ) + key  ) ];
+		str[i] = alphabet[ Useful::mod( alphabet.find( str[i] ) + key , alphabet.size() ) ];
 };
 
 void Transmitter::reverse_cipher( std::string & str )
@@ -43,7 +201,6 @@ void Transmitter::rcesar_cipher( std::string & str )
 	reverse_cipher(str);
 	cesar_cipher(str);
 };
-
 
 void Transmitter::rail_cipher( std::string & str )
 {
@@ -86,11 +243,11 @@ void Transmitter::route_cipher( std::string & str )
 
 	int currentPos = str.size()-1;
 
-	for( int i=0 ; i<( isEven(key) ? key/2 : (key-1)/2 ) ; i++ ) 	// # de capas
+	for( int i=0 ; i<( Useful::isEven(key) ? key/2 : (key-1)/2 ) ; i++ ) 	// # de capas
 	{
 		for( int j=0 ; j<4 ; j++ )									// # de flechas , siempre es 4
 		{
-			if( isEven(j) )
+			if( Useful::isEven(j) )
 			{
 				int idx;
 
@@ -127,7 +284,7 @@ void Transmitter::route_cipher( std::string & str )
 		x[1]-=2;
 	}
 
-	if( isEven(key) )
+	if( Useful::isEven(key) )
 		str = res;
 	else
 		str = res + str[currentPos];
@@ -139,7 +296,7 @@ void Transmitter::affinne_cipher( std::string & str)
 	//long long A = Euclides::BinaryMCD(key,alphabet.size());
 	long long A = 1;
 	for(int i=0 ; i<str.size() ; i++)
-		str[i] = alphabet[ mod(alphabet.find(str[i])*A + key )];
+		str[i] = alphabet[ Useful::mod(alphabet.find(str[i])*A + key , alphabet.size() )];
 }
 
 Transmitter::~Transmitter(){};

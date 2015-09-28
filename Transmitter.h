@@ -11,9 +11,11 @@ private:
 	int key;
 	std::string alphabet;
 
-	u_int mod( u_int );
 	void adjust_indexes( u_int , u_int* );
-	bool isEven( int );
+
+	/*Generacion de claves*/
+	u_int key_generation( std::string & , u_int & , u_int &);
+
 
 public:
 	/*	Crypto Algorithms	*/
@@ -22,7 +24,7 @@ public:
 	void rcesar_cipher( std::string & );
 	void rail_cipher( std::string & );
 	void route_cipher( std::string & );
-	void affinne_cipher( std::string & );
+	void affinne_cipher( std::string & , u_int , u_int );
 
 
 	Transmitter( int , std::string );

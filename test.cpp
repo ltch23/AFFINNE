@@ -17,16 +17,16 @@ bool isEven(int n)
 int main()
 {
 	std::string alphabet("ABCDEFGHIJKLMN0PQRSTUVXYZ");
-	std::string strVallas("ABCDEFGHIJ");
-	std::string str;
+	std::string str("ABCDEFGHIJ");
+	std::string str1;
 	u_int key = 3;
 
-	u_int size = strVallas.size();
+	u_int size = str.size();
 	u_int contVallas = 0;
 
 	for(int i=0 ; i<key ; i++)
 		for(int j=0 ; j<size ; j++)
-			str += strVallas[(((i*size+j )*key) + i)%size];
+			str1 += str[(((i*size+j )*key) + i)%size];
 
 
 
@@ -36,7 +36,7 @@ int main()
 		std::cout << "	";	
 		for(int j=0 ; j<size ; j++)
 		{
-			std::cout << str[i*size+j] << " ";
+			std::cout << str1[i*size+j] << " ";
 			if(i*size+j == i*size + key-1 || i*size+j == i*size + (key-1) + 2*key-2 )
 				std::cout << "| ";
 		}
@@ -48,7 +48,7 @@ int main()
 
 	for( int i=key-1 ; i<size ; i=i+2*key-2 )
 	{
-		std::cout << strVallas[i] << "  con  " << str[size*(key-1)+i] << std::endl;
+		std::cout << str[i] << "  con  " << str1[size*(key-1)+i] << std::endl;
 		contVallas++;
 	}
 
@@ -58,7 +58,7 @@ int main()
 	{
 		for(int j=1 ; i==key-1 ? (j<key && i-j<size):(j<key-1 && i-j<size-1) ; j++)
 		{
-			std::cout << strVallas[i-j] << "  con  " << str[size*(key-1-j)+i-j] << std::endl;
+			std::cout << str[i-j] << "  con  " << str1[size*(key-1-j)+i-j] << std::endl;
 			contVallas++;
 		}
 
@@ -66,7 +66,7 @@ int main()
 
 		for(int j=1 ; j<key && i+j<size; j++)
 		{
-			std::cout << strVallas[i+j] << "  con  " << str[size*(key-1-j)+i+j] << std::endl;
+			std::cout << str[i+j] << "  con  " << str1[size*(key-1-j)+i+j] << std::endl;
 			contVallas++;
 		}
 
@@ -78,7 +78,7 @@ int main()
 		u_int aux = size-contVallas;
 		for(int i=size-1 ; i>=contVallas ; i--)
 		{
-			std::cout << strVallas[i] << "  con  " << str[aux*size+i] << std::endl;
+			std::cout << str[i] << "  con  " << str1[aux*size+i] << std::endl;
 			aux--;
 		}
 	}
@@ -102,9 +102,9 @@ int main()
 					for( int k=0 ; k<key-1-it ; k++ )
 					{
 						//std::cout << currentPos << std::endl;
-						std::cout << str[currentPos] ;
+						std::cout << str1[currentPos] ;
 
-						std::swap(tmp,str[currentPos]);
+						std::swap(tmp,str1[currentPos]);
 
 						currentPos = sum ? currentPos + size : currentPos - size ; 
 					}
@@ -114,9 +114,9 @@ int main()
 					for( int k=0 ; (i == key-1) ? (k<key-1-it) : (k<2*key-2-it -1) ; k++ )
 					{
 						//std::cout << currentPos << std::endl;
-						std::cout << str[currentPos] ;
+						std::cout << str1[currentPos] ;
 
-						std::swap(tmp,str[currentPos]);
+						std::swap(tmp,str1[currentPos]);
 
 						if(i == key-1)
 							currentPos = sum ? (k==key-1-it -1 ? currentPos+size :currentPos+1) : currentPos-1 ;
@@ -140,14 +140,14 @@ int main()
 		{
 			for(int j=0 ; i==key-1 ? j<1 : j<key-1 ; j++)
 			{
-				std::swap(tmp,str[currentPos]);
+				std::swap(tmp,str1[currentPos]);
 
-				std::cout << str[currentPos--];
+				std::cout << str1[currentPos--];
 			}
 			std::cout << std::endl;
 		}
 
-		str[i] = tmp;
+		str1[i] = tmp;
 
 		std::cout << "=======================================" << std::endl;
 
@@ -161,7 +161,7 @@ int main()
 		std::cout << "	";	
 		for(int j=0 ; j<size ; j++)
 		{
-			std::cout << str[i*size+j] << " ";
+			std::cout << str1[i*size+j] << " ";
 			if(i*size+j == i*size + key-1 || i*size+j == i*size + (key-1) + 2*key-2 )
 				std::cout << "| ";
 		}
@@ -190,7 +190,7 @@ int main()
 					for( int k=0 ; k<key-1-it ; k++ )
 					{
 						//std::cout << currentPos << std::endl;
-						std::cout << str[currentPos] ;
+						std::cout << str1[currentPos] ;
 						currentPos = sum ? currentPos + size : currentPos - size ; 
 					}
 				}
@@ -199,7 +199,7 @@ int main()
 					for( int k=0 ; k<size-1-last-1-it ; k++ )
 					{
 						//std::cout << currentPos << std::endl;
-						std::cout << str[currentPos] ;
+						std::cout << str1[currentPos] ;
 						currentPos = sum ? (( k==size-1-last -1-1-it ) ? currentPos+size : currentPos+1 ) : currentPos-1;
 					}
 				}
@@ -214,7 +214,7 @@ int main()
 		if( ! Useful::isEven(key))
 		{
 			for(int j=0 ;  j<size-last -key ; j++)
-				std::cout << str[currentPos--];
+				std::cout << str1[currentPos--];
 			std::cout << std::endl;
 		}
 		std::cout << "=======================================" << std::endl;
