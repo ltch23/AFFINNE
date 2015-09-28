@@ -27,7 +27,28 @@ int main(int argc, char const *argv[])
 		u>>=1;
 		if(A==B && A== 0%2)
 		{
-			
+			A>>=1;
+			B>>=1;
+		}
+		else
+		{
+			A=(A+y)/2;
+			B=(B-x)/2;
+		}
+	}
+
+	while( (v&1)!=1 )
+	{
+		v>>=1;
+		if(C==D && C== 0%2)
+		{
+			C>>=1;
+			D>>=1;
+		}
+		else
+		{
+			C=(C+y)/2;
+			D=(D-x)/2;
 		}
 	}
 
