@@ -12,7 +12,10 @@ int main()
 	int key ;
 	std::string clave;
 	
+	std::cout << "Clave num: " << std::endl;
 	std::cin>>key;
+
+	std::cout << "Clave str: " << std::endl;
 	std::cin>>clave;
 
 	std::string alphabet("abcdefghijklmnopqrstuvwxyz");
@@ -40,13 +43,17 @@ int main()
 	int A_i = Euclides::extended_inv( A , alphabet.size());
 
 	std::cout << A_i << std::endl;
+	
+	int opc;
+	std::cout << "cifrar (1) o decifrar (2) : "<< std::endl;
+	std::cin>>opc;
 
+	if(opc==1)
+		alice.affinne_cipher( message , A , B );
 
-	std::cout << message << std::endl;
-	alice.affinne_cipher( message , A , B );
-	std::cout << message << std::endl;
+	else if(opc==2)
+		bob.affinne_decipher( message , A_i , B );
 
-	bob.affinne_decipher( message , A_i , B );
 	std::cout << message << std::endl;
 
 
