@@ -1,5 +1,6 @@
 #include "Transmitter.h"
 #include "Useful.h"
+#include "Euclides.h"
 
 Transmitter::Transmitter(int key , std::string alphabet)
 {
@@ -13,7 +14,7 @@ void Transmitter::adjust_indexes( u_int x , u_int* n )
 		n[i]++;
 };
 
-void Transmitter::keyGeneration( std::string & str , u_int A , u_int B )
+void Transmitter::key_generation( std::string & str , u_int & A , u_int & B )
 {
 	std::string str1;
 	u_int size = str.size();
@@ -26,12 +27,16 @@ void Transmitter::keyGeneration( std::string & str , u_int A , u_int B )
 			str1 += str[(((i*size+j )*key) + i)%size];
 
 
-
 /*	GENERACION CLAVE A 	*/
 	/*Empezamos con la ultima fila*/
-	for( int i=key-1 ; i<size ; i=i+2*key-2 )
+
+	bool Afounded = false;
+
+	for( int i=key-1 ; i<size && !Afounded; i=i+2*key-2 )
 	{
-		int( alphabet.find(str[i]) + alphabet.find( str1[size*(key-1)+i] ) ); // esto lo mandaremos al que halla inverso
+		A = ( alphabet.find(str[i]) + alphabet.find( str1[size*(key-1)+i] ) );
+		if( Euclides::BinaryMCD( A,alphabet . size() ) == 1 )
+			Afounded = true;
 		cont++;
 	}
 
@@ -40,18 +45,21 @@ void Transmitter::keyGeneration( std::string & str , u_int A , u_int B )
 	{
 		/*IZQUIERDA : 	
 		En el primer caso iremos 'key' veces, despues solo 'key-1' dado que 
-		cuando recorrimos hacia la izquierda ya tocamos el pico de la
-		fila */
-		for(int j=1 ; i==key-1 ? (j<key && i-j<size):(j<key-1 && i-j<size-1) ; j++)
+		cuando recorrimos hacia la izquierda ya tocamos el pico de la fila */
+		for(int j=1 ; i==key-1 ? (j<key && i-j<size && !Afounded ):(j<key-1 && i-j<size-1 && !Afounded) ; j++)
 		{
-			int( alphabet.find( str[i-j] ) + alphabet.find( str1[size*(key-1-j)+i-j] ) );
+			A = ( alphabet.find( str[i-j] ) + alphabet.find( str1[size*(key-1-j)+i-j] ) );
+			if( Euclides::BinaryMCD( A,alphabet . size() ) == 1 )
+				Afounded = true;
 			cont++;
 		}
 		/*DERECHA:
 		Siempre recorremos 'key' veces*/
-		for(int j=1 ; j<key && i+j<size; j++)
+		for(int j=1 ; j<key && i+j<size && !Afounded ; j++)
 		{
-			int( alphabet.find( str[i+j] ) + alphabet.find( str1[size*(key-1-j)+i+j] ) );
+			A = ( alphabet.find( str[i+j] ) + alphabet.find( str1[size*(key-1-j)+i+j] ) );
+			if( Euclides::BinaryMCD( A,alphabet . size() ) == 1 )
+				Afounded = true;
 			cont++;
 		}
 	}
@@ -60,12 +68,19 @@ void Transmitter::keyGeneration( std::string & str , u_int A , u_int B )
 	if(cont<size)
 	{
 		u_int aux = size-cont;
-		for(int i=size-1 ; i>=cont ; i--)
+		for(int i=size-1 ; i>=cont && !Afounded ; i--)
 		{
-			int( alphate.find( str[i] ) + alphabet.find( str1[aux*size+i] ) );
+			A = ( alphabet.find( str[i] ) + alphabet.find( str1[aux*size+i] ) );
+			if( Euclides::BinaryMCD( A,alphabet . size() ) == 1 )
+				Afounded = true;
 			aux--;
 		}
 	}
+
+	if( !Afounded )
+		throw "No se puede generar la  clave A con ese mensaje . =( ";
+
+/*****************************************************************************/
 
 /*	GENERACION CLAVE B 	*/
 	u_int last = 0;
@@ -113,7 +128,7 @@ void Transmitter::keyGeneration( std::string & str , u_int A , u_int B )
 		str1[i] = tmp;
 
 		for(int j=0 ; j<key ; j++)
-			B += alphabet.find( str1[i+j*(size-1)] )
+			B += alphabet.find( str1[i+j*(size-1)] );
 	}
 
 
@@ -215,18 +230,15 @@ void Transmitter::rail_cipher( std::string & str )
 	{	
 		for( int j=0 ; j<seg && currentPos<str.size() ; j++ )
 		{
-			//const int idx = i*seg + j;
+			//const int idx = i*seg + j
 			char tmp = str[currentPos];
 
 			str.erase(str.begin() + currentPos);
-			str.insert(str.begin() + n[ upFlag ? seg - currentPos%seg : currentPos%seg ], tmp );
+			str.insert(str.begin() + n[ upFlag ? seg - Useful::mod(currentPos,seg) : Useful::mod(currentPos,seg) ], tmp );
 
-			adjust_indexes( upFlag ? seg - currentPos%seg: currentPos%seg , n );
-			//std::cout << currentPos << std::endl;
+			adjust_indexes( upFlag ? seg - Useful::mod(currentPos,seg): Useful::mod(currentPos,seg) , n );
 			currentPos++;
-
 		}
-
 		upFlag = not upFlag;
 	}
 
@@ -291,10 +303,10 @@ void Transmitter::route_cipher( std::string & str )
 	
 };
 
-void Transmitter::affinne_cipher( std::string & str)
+void Transmitter::affinne_cipher( std::string & str , u_int A , u_int B)
 {
 	//long long A = Euclides::BinaryMCD(key,alphabet.size());
-	long long A = 1;
+	//long long A = 1;
 	for(int i=0 ; i<str.size() ; i++)
 		str[i] = alphabet[ Useful::mod(alphabet.find(str[i])*A + key , alphabet.size() )];
 }

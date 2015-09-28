@@ -14,18 +14,18 @@ private:
 	void adjust_indexes( u_int , u_int* );
 
 	/*Generacion de claves*/
-	u_int key_generation( std::string & , u_int & , u_int &);
 
 
 public:
 	/*	Crypto Algorithms	*/
+	void key_generation( std::string & , u_int & , u_int &);
+	
 	void cesar_cipher( std::string & );
 	void reverse_cipher( std::string & );
 	void rcesar_cipher( std::string & );
 	void rail_cipher( std::string & );
 	void route_cipher( std::string & );
 	void affinne_cipher( std::string & , u_int , u_int );
-
 
 	Transmitter( int , std::string );
 

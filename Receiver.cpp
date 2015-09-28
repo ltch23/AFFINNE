@@ -128,9 +128,11 @@ void Receiver::route_decipher( std::string & str )
 
 void Receiver::afinne_decipher( std::string & str )
 {
-	long long A_inv = Euclides::extended_inv( key , str.size() );
+	//long long A_inv = Euclides::extended_inv( key , str.size() );
+	/*
 	for(int i=0 ; i<str.size() ; i++)
 		str[i] = alphabet[ help ((alphabet.find(str[i]) - key) * A_inv) ];
+		*/
 };
 
 Receiver::~Receiver() {};

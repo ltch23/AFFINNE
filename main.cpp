@@ -8,9 +8,9 @@
 int main()
 {
 	int key = 5;
-	std::string alphabet("abcdefghijklmnopqrstuvwxyz .;_");
+	std::string alphabet("abcdefghijklmnopqrstuvwxyz .;");
 
-	Receiver bob( key , alphabet );
+	//Receiver bob( key , alphabet );
 	Transmitter alice( key , alphabet );
 
 	std::string message ="clave5luistontong";
@@ -19,9 +19,27 @@ int main()
 
 	std::cout << message << std::endl;
 
-	bob.rail_decipher(message);
+	//bob.rail_decipher(message);
 
 	std::cout << message << std::endl;
+
+
+
+
+	std::string clave("ccccccccccccccccccccccc");
+
+	u_int A,B;
+
+	try
+	{
+		alice.key_generation(clave, A , B);
+	}
+	catch(const char* error)
+	{
+		std::cerr << error << std::endl;
+	}
+
+	std::cout << "El programa continua" << std::endl;
 /*
 	alice.route_cipher(message);
 	std::cout << message << std::endl;

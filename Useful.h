@@ -19,12 +19,12 @@ bool Useful::isEven( int n )
 
 int Useful::mod( int a , int b )
 {
-	if(a==0)
-		return 0;
-	if(a>0)
-		return b - (a/b) * b;
-	if(a<0)
-		return b + (a/b) * b;
+	int q = a/b;
+
+	if (a<0)
+		q--;
+
+	return a-(b*q) == b  ? 0 : a-(b*q);
 };
 
 #endif // USEFUL_H

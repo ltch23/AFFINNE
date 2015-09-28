@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <iostream>
+#include "Useful.h"
 
 class Euclides
 {
@@ -100,7 +101,6 @@ long long Euclides::MenorResto( long long a , long long b )
 	}
 
 	return c>0?c:-c;
-
 };
 
 void Euclides::extended( long long a , long long b )
@@ -134,17 +134,8 @@ void Euclides::extended( long long a , long long b )
 	return;
 };
 
-long long mod( long long a , long long b )
-{
-	if(a>b)
-		return a%b;
-	else
-		return b%a;
-};
-
 long long Euclides::extended_inv( long long a , long long b )
 {
-
 	std::vector<long long> Q;
 
 	long long r = MCD( a , b , Q );
@@ -158,15 +149,12 @@ long long Euclides::extended_inv( long long a , long long b )
 
 		for(int i=0 ; i < Q.size() ; i++)
 		{
-			inv = mod(s2 - s1*Q[i],b);
-			/*std::cout << s2 << "-" << s1 << "*" << Q[i] << std::endl;
-			std::cout << inv << std::endl;*/
+			inv = Useful::mod(s2 - s1*Q[i],b);
 			s2 = s1;
 			s1 = inv;
 		}
 
-	return inv ;
-
+		return inv ;
 	}
 };
 
