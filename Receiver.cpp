@@ -1,4 +1,5 @@
 #include "Receiver.h"
+#include "Useful.h"
 
 Receiver::Receiver(int key , std::string alphabet)
 {
@@ -6,29 +7,10 @@ Receiver::Receiver(int key , std::string alphabet)
 	this -> alphabet = alphabet;
 };
 
-unsigned int Receiver::help( int idx )
-{
-	if( idx < 0 )
-	{
-		int x = ( idx - ( idx/int(alphabet.size()) )*int(alphabet.size()) );
-		return x==0 ? 0 : int(alphabet.size()) + x ;
-	}
-	else
-		return idx;
-};
-
-bool Receiver::isPair( int n )
-{
-	if( n-(n/2)*2 == 0 )
-		return true;
-	else
-		return false;
-};
-
 void Receiver::cesar_decipher ( std::string & str )
 {
 	for( int i=0 ; i < str.size() ; i++ )
-		str[i] = alphabet[ help( int(alphabet.find( str[i] )) - key ) ];
+		str[i] = alphabet[ Useful::mod( int(alphabet.find( str[i] )) - key , alphabet.size() ) ];
 };
 
 void Receiver::reverse_decipher( std::string & str )
@@ -56,7 +38,7 @@ void Receiver::rail_decipher( std::string & str )
 	int* limiters = new int[key];
 
 	limiters[0] = 0;
-	limiters[1] = isPair(seg) ? seg/2 : seg/2 +1 ;
+	limiters[1] = Useful::isEven(seg) ? seg/2 : seg/2 +1 ;
 	limiters[key-1] = str.size() - seg/2;
 
 	for(int i=2 ; i<key-1 ; i++)
@@ -126,13 +108,10 @@ void Receiver::route_decipher( std::string & str )
 		std::cout << limiters[i] << std::endl;
 };
 
-void Receiver::afinne_decipher( std::string & str )
+void Receiver::affinne_decipher( std::string & str , int A_i , int B )
 {
-	//long long A_inv = Euclides::extended_inv( key , str.size() );
-	/*
 	for(int i=0 ; i<str.size() ; i++)
-		str[i] = alphabet[ help ((alphabet.find(str[i]) - key) * A_inv) ];
-		*/
+		str[i] = alphabet[ Useful::mod( (alphabet.find(str[i]) - B)*A_i, alphabet.size() )];
 };
 
 Receiver::~Receiver() {};

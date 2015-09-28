@@ -12,11 +12,7 @@ private:
 	int key;
 	std::string alphabet;
 
-	unsigned int help( int );
-	void adjust_string( std::string & );
-	void adjust_indexes( unsigned int , unsigned int* );
 	void adjust_limiters( int, int* );
-	bool isPair(int n);
 
 public:
 	/*	Crypto Algorithms	*/
@@ -25,7 +21,7 @@ public:
 	void rcesar_decipher( std::string & );
 	void rail_decipher( std::string & );
 	void route_decipher(std::string & );
-	void afinne_decipher( std::string & );
+	void affinne_decipher( std::string & , int , int );
 
 	Receiver( int , std::string );
 

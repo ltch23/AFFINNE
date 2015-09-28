@@ -18,7 +18,6 @@ private:
 
 public:
 	/*	Crypto Algorithms	*/
-	void key_generation( std::string & , u_int & , u_int &);
 	
 	void cesar_cipher( std::string & );
 	void reverse_cipher( std::string & );
