@@ -3,16 +3,20 @@
 #include <utility>
 
 
+#include "Useful.h"
+
+/*
 bool isEven(int n)
 {
 	if(n&1 == 1)
 		return false;
 	return true;
 }
+*/
 
 int main()
 {
-	std::string alphabet("ABCDEFGHIJKLMN0PQRSTUVXYZ")
+	std::string alphabet("ABCDEFGHIJKLMN0PQRSTUVXYZ");
 	std::string strVallas("ABCDEFGHIJ");
 	std::string str;
 	u_int key = 3;
@@ -93,7 +97,7 @@ int main()
 		{
 			for(int j=0 ; j<4 ; j++)
 			{
-				if( isEven(j) )
+				if( Useful::isEven(j) )
 				{
 					for( int k=0 ; k<key-1-it ; k++ )
 					{
@@ -132,7 +136,7 @@ int main()
 		}
 		//std::cout << currentPos << std::endl;
 
-		if( ! isEven(key))
+		if( ! Useful::isEven(key))
 		{
 			for(int j=0 ; i==key-1 ? j<1 : j<key-1 ; j++)
 			{
@@ -181,7 +185,7 @@ int main()
 		{
 			for(int j=0 ; j<4 ; j++)
 			{
-				if( isEven(j) )
+				if( Useful::isEven(j) )
 				{
 					for( int k=0 ; k<key-1-it ; k++ )
 					{
@@ -207,7 +211,7 @@ int main()
 
 
 
-		if( ! isEven(key))
+		if( ! Useful::isEven(key))
 		{
 			for(int j=0 ;  j<size-last -key ; j++)
 				std::cout << str[currentPos--];
