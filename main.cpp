@@ -40,12 +40,12 @@ int main()
 	int A_i = Euclides::extended_inv( A , alphabet.size());
 
 	std::cout << A_i << std::endl;
-
+/*
 
 	std::cout << message << std::endl;
 	alice.affinne_cipher( message , A , B );
 	std::cout << message << std::endl;
-
+*/
 	bob.affinne_decipher( message , A_i , B );
 	std::cout << message << std::endl;
 

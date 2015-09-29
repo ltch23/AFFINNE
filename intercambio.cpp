@@ -18,41 +18,69 @@ int main()
 	std::cout << "Clave str: " << std::endl;
 	std::cin>>clave;
 
+
 	std::string alphabet("abcdefghijklmnopqrstuvwxyz");
 
 	Transmitter alice( key , alphabet );
 	Receiver bob( key , alphabet );
 
+
+	
+
 	std::string message ;
 	std::cin>>message;
 
 
-	u_int A,B=0;
-
-	try
-	{
-		KeyGenerator::keyGenerator_RailAndRoutes(alphabet , clave , key , A , B);
-	}
-	catch(const char* error)
-	{
-		std::cerr << error << std::endl;
-	}
-
-	std::cout << A << "  " << B << std::endl;
-
-	int A_i = Euclides::extended_inv( A , alphabet.size());
-
-	std::cout << A_i << std::endl;
 	
 	int opc;
 	std::cout << "cifrar (1) o decifrar (2) : "<< std::endl;
 	std::cin>>opc;
 
 	if(opc==1)
+	{
+		u_int A,B=0;
+
+		
+
+		try
+		{
+			KeyGenerator::keyGenerator_RailAndRoutes(alphabet , clave , key , A , B);
+		}
+		catch(const char* error)
+		{
+			std::cerr << error << std::endl;
+		}
+
+		std::cout << A << "  " << B << std::endl;
+
+
+		int A_i = Euclides::extended_inv( A , alphabet.size());
+
+		std::cout << A_i << std::endl;
 		alice.affinne_cipher( message , A , B );
+	
+	}
 
 	else if(opc==2)
+	{
+		u_int A,B=0;
+
+		try
+		{
+			KeyGenerator::keyGenerator_RailAndRoutes(alphabet , clave , key , A , B);
+		}
+		catch(const char* error)
+		{
+			std::cerr << error << std::endl;
+		}
+
+		std::cout << A << "  " << B << std::endl;
+
+		int A_i = Euclides::extended_inv( A , alphabet.size());
+
+		std::cout << A_i << std::endl;
 		bob.affinne_decipher( message , A_i , B );
+	}
 
 	std::cout << message << std::endl;
 

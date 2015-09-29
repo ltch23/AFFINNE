@@ -14,6 +14,20 @@ void KeyGenerator::keyGenerator_RailAndRoutes( std::string & alphabet , std::str
 		for(int j=0 ; j<size ; j++)
 			str1 += str[ (Useful::mod(((i*size+j )*key) + i,size)) ];
 
+/*
+	std::cout << std::endl;
+	for(int i=0 ; i<key ; i++)
+	{
+		std::cout << "	";	
+		for(int j=0 ; j<size ; j++)
+		{
+			std::cout << str1[i*size+j] << " ";
+			if(i*size+j == i*size + key-1 || i*size+j == i*size + (key-1) + 2*key-2 )
+				std::cout << "| ";
+		}
+		std::cout << std::endl;
+	}
+*/
 
 /*	GENERACION CLAVE A 	*/
 	/*Empezamos con la ultima fila*/
@@ -121,21 +135,10 @@ void KeyGenerator::keyGenerator_RailAndRoutes( std::string & alphabet , std::str
 
 
 
-	std::cout << std::endl;
-	for(int i=0 ; i<key ; i++)
-	{
-		std::cout << "	";	
-		for(int j=0 ; j<size ; j++)
-		{
-			std::cout << str1[i*size+j] << " ";
-			if(i*size+j == i*size + key-1 || i*size+j == i*size + (key-1) + 2*key-2 )
-				std::cout << "| ";
-		}
-		std::cout << std::endl;
-	}
 
 	////////////////////////////////////////////////////////////////////////////
 
+	std::cout << size-last-1<< std::endl;
 	if(last != size-1)
 	{
 		int i = size-1 ;
@@ -188,7 +191,22 @@ void KeyGenerator::keyGenerator_RailAndRoutes( std::string & alphabet , std::str
 		}
 
 		std::swap(tmp,str1[i]);
-		for(int j=0 ; j<key ; j++)
+
+		for(int j=0 ; j<size-1-last && j<key; j++)
 			B += alphabet.find( str1[i+j*(size-1)] );
 	}
+/*
+	std::cout << std::endl;
+	for(int i=0 ; i<key ; i++)
+	{
+		std::cout << "	";	
+		for(int j=0 ; j<size ; j++)
+		{
+			std::cout << str1[i*size+j] << " ";
+			if(i*size+j == i*size + key-1 || i*size+j == i*size + (key-1) + 2*key-2 )
+				std::cout << "| ";
+		}
+		std::cout << std::endl;
+	}
+*/
 };
