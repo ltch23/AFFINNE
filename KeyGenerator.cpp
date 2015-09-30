@@ -138,7 +138,7 @@ void KeyGenerator::keyGenerator_RailAndRoutes( std::string & alphabet , std::str
 
 	////////////////////////////////////////////////////////////////////////////
 
-	std::cout << size-last-1<< std::endl;
+	//std::cout << size-last-1<< std::endl;
 	if(last != size-1)
 	{
 		int i = size-1 ;
