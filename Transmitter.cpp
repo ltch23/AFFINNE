@@ -57,7 +57,7 @@ void Transmitter::rail_cipher( std::string & str )
 		upFlag = not upFlag;
 	}
 
-	delete n;
+	delete [] n;
 };
 
 void Transmitter::route_cipher( std::string & str )

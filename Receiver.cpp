@@ -33,44 +33,75 @@ void Receiver::adjust_limiters( int n , int *limiters )
 
 void Receiver::rail_decipher( std::string & str )
 {
-	
+
+	std::cout << "DESCIFRANDO" << std::endl;
+
 	int seg = str.size()/(key-1);
-	int* limiters = new int[key];
+	int rest = Useful::mod(str.size(),key-1);
 
-	limiters[0] = 0;
-	limiters[1] = Useful::isEven(seg) ? seg/2 : seg/2 +1 ;
-	limiters[key-1] = str.size() - seg/2;
+	std::cout << "resto : " << rest << std::endl;
+	std::cout << "seg : " << seg << std::endl;
 
-	for(int i=2 ; i<key-1 ; i++)
-		limiters[i] = limiters[i-1]+(limiters[key-1]-limiters[1])/(key-2);
-	
+	int * limiters = new int[key];
+
+	if(Useful::isEven(seg))
+	{
+		limiters[1] = seg/2 + (rest!=0?1:0);
+
+		for(int i=2 ; i<key ; i++)
+			limiters[i] = limiters[i-1] + seg ;
+
+		int c=1;
+		for(int i=2 ; i<key && rest>1 && c<rest; i++)
+			limiters[i]+=c;
+	}
+	else
+	{
+		limiters[1] = seg/2 + 1;
+		for(int i=2 ; i<key ; i++)
+			limiters[i] = limiters[i-1] + seg;
+
+		for(int i=1 ; i<rest ; i++)
+			limiters[key-i]++;
+	}
+
+
+	for(int i=0 ; i<key ; i++)
+		std::cout << limiters[i] << std::endl;
+
 	bool toRight = true;
 
-	for(int i=0 ; i<seg ; i++)
-	{
-			if(toRight)
-				for(int j=0 ; j<key-1 ; j++)
-				{	
-					char tmp = str[limiters[j]];
-					str.erase(str.begin()+limiters[j]);
-					str.insert(str.begin()+limiters[0],tmp);
-					if(j!=0)
-						limiters[0]++;
-					limiters[j]++;
-					adjust_limiters(j,limiters);
-				}
+	int cont=str.size();
 
-			else
-				for(int j=key-1 ; j>0 ; j--)
-				{
-					char tmp = str[limiters[j]];
-					str.erase(str.begin()+limiters[j]);
-					str.insert(str.begin()+limiters[0],tmp);
+	while(cont > 1)
+	{
+		if(toRight)
+			for(int j=0 ; j<key-1 && cont > 1; j++)
+			{	
+				char tmp = str[limiters[j]];
+				std::cout << "To right : " << limiters[j] << " -> " << tmp << std::endl;
+				str.erase(str.begin()+limiters[j]);
+				str.insert(str.begin()+limiters[0],tmp);
+				if(j!=0)
 					limiters[0]++;
-					limiters[j]++;
-					adjust_limiters(j,limiters);
-				}
-		
+				limiters[j]++;
+				adjust_limiters(j,limiters);
+				cont--;
+			}
+
+		else
+			for(int j=key-1 ; j>0 && cont > 1; j--)
+			{
+				char tmp = str[limiters[j]];
+				std::cout << "To left : " << limiters[j] << " -> " << tmp << std::endl;
+				str.erase(str.begin()+limiters[j]);
+				str.insert(str.begin()+limiters[0],tmp);
+				limiters[0]++;
+				limiters[j]++;
+				adjust_limiters(j,limiters);
+				cont--;
+			}
+	
 		toRight = not toRight;
 
 	}
