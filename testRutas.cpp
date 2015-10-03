@@ -40,7 +40,7 @@ int main()
 	for(int i=1 ; i<=num_limit ; i++)
 	{
 		limiters[i-1] += (i)*key ;
-		//std::cout << limiters[i-1] << std::endl;
+		std::cout << limiters[i-1] << std::endl;
 	}
 
 	std::string str1;
@@ -53,7 +53,7 @@ int main()
 	bool toLeft = true;
 	u_int it=0;
 
-	for(int i=0 ; i<key ; i++)
+	for(int i=0 ; i<num_limit ; i++)
 	{
 		for(int j= (toLeft?1+it:num_limit-it) ; toLeft?(j<=num_limit-1-it):j>1+it ; toLeft?j++:j-- )
 		{
