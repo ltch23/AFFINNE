@@ -6,76 +6,65 @@ int key;
 
 void adjust_str(std::string & str)
 {
-	const int adj = key-Useful::mod(str.size(),key);
-
+	// ajustaremos en caso que mod sea diferente de 0 , sino lo es regresa como estaba
+	int mod=Useful::mod(str.size(),key);
+	if(mod!=0)
+	{
+	const int adj = key- Useful::mod(str.size(),key);
 	for(int i=0 ; i < adj ; i++)
-		str+="x";
+	str+="x";
+	}
 }
 
 int main(int argc, char const *argv[])
 {
 
-	std::string str("abcdefghijklmnopqrstuvwxyzabcd");
+	std::string str("luistequieremuchopatusabejeje");
 	key = 5;
-
-	//adjust_str(str);
-
+	adjust_str(str);
 	std::string str1;
 
-	u_int size = str.size();
-	u_int contVallas = 0;
-
+	unsigned int size = str.size();
+	unsigned int contVallas = 0;
+	//usamos contadorx para rstringrir que solo ingrese size veces al programa
+	unsigned int contadorx=0;
 	for(int i=0 ; i<key ; i++)
 		for(int j=0 ; j<size/key ; j++)
 			str1 += str[ (((i*(size)+j )*key) + i)%(size)];
 
 
-	std::cout << str1 << std::endl;
+		std::cout << str1 << std::endl;
 
-	std::string str2;
+		std::string str2;
 
 		int i=(size/key)-1; 
-
-		u_int last = i ;
-		u_int currentPos = i;
+		unsigned int currentPos = i;
 		bool sum = true;
-		char tmp;
+		
 		int vueltas = 0;
-
-		for(int it = 0 ; vueltas < key/2 ; it=it+2)
+		//lo demas es muy parecido al key generator solo varia key por size/key
+		for(int it = 0 ; vueltas < (key/2) ; it=it+2)
 		{
 			for(int j=0 ; j<4 ; j++)
 			{
 				if( Useful::isEven(j) )
 				{
-					for( int k=0 ; k<key-1-it ; k++ )
+					for( int k=0 ; k<key-1-it  && contadorx < size; k++ )
 					{
-						//std::cout << currentPos << std::endl;
 						std::cout << str1[currentPos] ;
-
 						str2 += str1[currentPos];
-
 						currentPos = sum ? currentPos + (size/key) : currentPos - (size/key) ; 
+						contadorx++;
 					}
 				}
 				else
 				{
-					for( int k=0 ; k <(size/key)-1-it ; k++ )
+					for( int k=0 ; k <(size/key)-1-it && contadorx < size; k++ )
 					{
-						//std::cout << currentPos << std::endl;
 						std::cout << str1[currentPos] ;
-
 						str2 += str1[currentPos];
-
-						if(i == key-1)
-							currentPos = sum ? (k==key-1-it -1 ? currentPos+size :currentPos+1) : currentPos-1 ;
-
-						else
-						{
-							//std::cout << "He entrado aqui" << std::endl;
-							currentPos = sum ? currentPos+size  currentPos+1 ) : currentPos-1;
-						}
-
+						currentPos = sum ? (k==(size/key)-1-it-1 ? currentPos+(size/key) :currentPos+1) : currentPos-1 ;
+						contadorx++;
 					}
 				}
 				sum = (j==0 || j==1) ? false : true;  
@@ -83,26 +72,20 @@ int main(int argc, char const *argv[])
 			}
 			vueltas++;
 		}
-		//std::cout << currentPos << std::endl;
-
-/*		if( ! Useful::isEven(key))
+		std::cout<<"**************************************************"<<std::endl;
+		
+		//usamos el buen conocido key cuando es impar y mejor al size/key
+		if( ! Useful::isEven(key)&& key<=size/key)
 		{
-			for(int j=0 ; i==key-1 ? j<1 : j<key-1 ; j++)
+			for(int j=0 ;  j<((size/key)/2)-1 ; j++)
 			{
 				str2 += str1[currentPos];
-
-				std::cout << str1[currentPos--];
+				std::cout << str1[currentPos--]<<std::endl;
 			}
 		}
 
-		str1[i] = tmp;
-
-		std::cout << "=======================================" << std::endl;
-*/
-	
-
 	std::cout << str2 << std::endl;
 
-	/* code */
+	//por lo demas ahi esta =)
 	return 0;
 }
